@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Neural Network Simulator</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- HEADER -->
+    <header>
+        <div>
+            <h1>🧠 Neural Network Simulator</h1>
+            <p>Manual Forward Propagation</p>
+        </div>
+
+        <div class="status">
+            <span class="status-dot"></span>
+            Interactive
+        </div>
+    </header>
+
+
+    <!-- MAIN GRID -->
+    <main>
+
+        <!-- LEFT PANEL -->
+        <section class="control-panel">
+
+            <h2>⚙️ Network Controls</h2>
+
+            <!-- INPUTS -->
+            <div class="control-section">
+
+                <h3>Input Values</h3>
+
+                <div class="slider-box">
+                    <div class="label-row">
+                        <label>Input X1</label>
+                        <span id="x1Value">0.50</span>
+                    </div>
+
+                    <input
+                        type="range"
+                        id="x1"
+                        min="0"
+                        max="1"
+                        step="0.01"
+                        value="0.5"
+                    >
+                </div>
+
+
+                <div class="slider-box">
+                    <div class="label-row">
+                        <label>Input X2</label>
+                        <span id="x2Value">0.80</span>
+                    </div>
+
+                    <input
+                        type="range"
+                        id="x2"
+                        min="0"
+                        max="1"
+                        step="0.01"
+                        value="0.8"
+                    >
+                </div>
+
+            </div>
+
+
+            <!-- HIDDEN LAYER -->
+            <div class="control-section">
+
+                <h3>Hidden Layer</h3>
+
+                <p class="small-title">Neuron H1</p>
+
+                <div class="slider-box">
+                    <div class="label-row">
+                        <label>Weight W1</label>
+                        <span id="h1w1Value">0.40</span>
+                    </div>
+
+                    <input
+                        type="range"
+                        id="h1w1"
+                        min="-1"
+                        max="1"
+                        step="0.01"
+                        value="0.4"
+                    >
+                </div>
+
+
+                <div class="slider-box">
+                    <div class="label-row">
+                        <label>Weight W2</label>
+                        <span id="h1w2Value">0.60</span>
+                    </div>
+
+                    <input
+                        type="range"
+                        id="h1w2"
+                        min="-1"
+                        max="1"
+                        step="0.01"
+                        value="0.6"
+                    >
+                </div>
+
+
+                <div class="slider-box">
+                    <div class="label-row">
+                        <label>Bias</label>
+                        <span id="h1bValue">0.10</span>
+                    </div>
+
+                    <input
+                        type="range"
+                        id="h1b"
+                        min="-1"
+                        max="1"
+                        step="0.01"
+                        value="0.1"
+                    >
+                </div>
+
+
+                <p class="small-title">Neuron H2</p>
+
+                <div class="slider-box">
+                    <div class="label-row">
+                        <label>Weight W1</label>
+                        <span id="h2w1Value">0.70</span>
+                    </div>
+
+                    <input
+                        type="range"
+                        id="h2w1"
+                        min="-1"
+                        max="1"
+                        step="0.01"
+                        value="0.7"
+                    >
+                </div>
+
+
+                <div class="slider-box">
+                    <div class="label-row">
+                        <label>Weight W2</label>
+                        <span id="h2w2Value">0.30</span>
+                    </div>
+
+                    <input
+                        type="range"
+                        id="h2w2"
+                        min="-1"
+                        max="1"
+                        step="0.01"
+                        value="0.3"
+                    >
+                </div>
+
+
+                <div class="slider-box">
+                    <div class="label-row">
+                        <label>Bias</label>
+                        <span id="h2bValue">0.20</span>
+                    </div>
+
+                    <input
+                        type="range"
+                        id="h2b"
+                        min="-1"
+                        max="1"
+                        step="0.01"
+                        value="0.2"
+                    >
+                </div>
+
+            </div>
+
+
+            <!-- OUTPUT -->
+            <div class="control-section">
+
+                <h3>Output Neuron</h3>
+
+                <div class="slider-box">
+                    <div class="label-row">
+                        <label>Weight H1</label>
+                        <span id="ow1Value">0.50</span>
+                    </div>
+
+                    <input
+                        type="range"
+                        id="ow1"
+                        min="-1"
+                        max="1"
+                        step="0.01"
+                        value="0.5"
+                    >
+                </div>
+
+
+                <div class="slider-box">
+                    <div class="label-row">
+                        <label>Weight H2</label>
+                        <span id="ow2Value">0.80</span>
+                    </div>
+
+                    <input
+                        type="range"
+                        id="ow2"
+                        min="-1"
+                        max="1"
+                        step="0.01"
+                        value="0.8"
+                    >
+                </div>
+
+
+                <div class="slider-box">
+                    <div class="label-row">
+                        <label>Bias</label>
+                        <span id="obValue">0.10</span>
+                    </div>
+
+                    <input
+                        type="range"
+                        id="ob"
+                        min="-1"
+                        max="1"
+                        step="0.01"
+                        value="0.1"
+                    >
+                </div>
+
+            </div>
+
+
+            <!-- ACTIVATION -->
+            <div class="control-section">
+
+                <h3>Activation Function</h3>
+
+                <div class="activation-buttons">
+
+                    <button
+                        class="activation active"
+                        data-function="sigmoid">
+                        Sigmoid
+                    </button>
+
+                    <button
+                        class="activation"
+                        data-function="relu">
+                        ReLU
+                    </button>
+
+                    <button
+                        class="activation"
+                        data-function="tanh">
+                        Tanh
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <button class="reset-btn" id="resetBtn">
+                ↻ Reset Network
+            </button>
+
+        </section>
+
+
+        <!-- RIGHT SIDE -->
+        <section class="visual-panel">
+
+            <!-- NETWORK -->
+            <div class="card network-card">
+
+                <div class="card-title">
+
+                    <div>
+                        <h2>Network Visualization</h2>
+                        <p>Forward propagation flow</p>
+                    </div>
+
+                    <button id="calculateBtn" class="calculate-btn">
+                        ▶ Calculate
+                    </button>
+
+                </div>
+
+
+                <div class="network">
+
+                    <!-- INPUT -->
+                    <div class="network-layer">
+
+                        <h4>INPUT</h4>
+
+                        <div class="neuron input-neuron" id="input1">
+                            <span>X1</span>
+                            <strong id="diagramX1">0.50</strong>
+                        </div>
+
+                        <div class="neuron input-neuron" id="input2">
+                            <span>X2</span>
+                            <strong id="diagramX2">0.80</strong>
+                        </div>
+
+                    </div>
+
+
+                    <div class="connections">
+                        <div>↗</div>
+                        <div>↘</div>
+                    </div>
+
+
+                    <!-- HIDDEN -->
+                    <div class="network-layer">
+
+                        <h4>HIDDEN</h4>
+
+                        <div class="neuron hidden-neuron" id="hidden1">
+                            <span>H1</span>
+                            <strong id="diagramH1">0.69</strong>
+                        </div>
+
+                        <div class="neuron hidden-neuron" id="hidden2">
+                            <span>H2</span>
+                            <strong id="diagramH2">0.69</strong>
+                        </div>
+
+                    </div>
+
+
+                    <div class="connections">
+                        <div>↗</div>
+                        <div>↘</div>
+                    </div>
+
+
+                    <!-- OUTPUT -->
+                    <div class="network-layer">
+
+                        <h4>OUTPUT</h4>
+
+                        <div class="neuron output-neuron" id="outputNeuron">
+
+                            <span>Y</span>
+
+                            <strong id="diagramOutput">
+                                0.73
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- RESULT CARDS -->
+            <div class="result-grid">
+
+                <div class="result-card">
+
+                    <span>H1 OUTPUT</span>
+
+                    <strong id="h1Result">
+                        0.6857
+                    </strong>
+
+                    <small>
+                        Hidden neuron 1
+                    </small>
+
+                </div>
+
+
+                <div class="result-card">
+
+                    <span>H2 OUTPUT</span>
+
+                    <strong id="h2Result">
+                        0.6878
+                    </strong>
+
+                    <small>
+                        Hidden neuron 2
+                    </small>
+
+                </div>
+
+
+                <div class="result-card final">
+
+                    <span>FINAL OUTPUT</span>
+
+                    <strong id="finalResult">
+                        0.7297
+                    </strong>
+
+                    <small id="prediction">
+                        Class 1
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <!-- CALCULATIONS -->
+            <div class="card calculation-card">
+
+                <h2>🔢 Step-by-Step Calculation</h2>
+
+                <div id="calculationContent">
+
+                    <div class="calculation">
+
+                        <h3>Neuron H1</h3>
+
+                        <p>
+                            z = (X1 × W1) + (X2 × W2) + Bias
+                        </p>
+
+                        <code>
+                            z = (0.50 × 0.40)
+                            + (0.80 × 0.60)
+                            + 0.10
+                        </code>
+
+                        <p>
+                            Weighted Sum =
+                            <strong>0.7800</strong>
+                        </p>
+
+                        <p>
+                            Activation Output =
+                            <strong>0.6857</strong>
+                        </p>
+
+                    </div>
+
+
+                    <div class="calculation">
+
+                        <h3>Neuron H2</h3>
+
+                        <p>
+                            z = (X1 × W1) + (X2 × W2) + Bias
+                        </p>
+
+                        <code>
+                            z = (0.50 × 0.70)
+                            + (0.80 × 0.30)
+                            + 0.20
+                        </code>
+
+                        <p>
+                            Weighted Sum =
+                            <strong>0.7900</strong>
+                        </p>
+
+                        <p>
+                            Activation Output =
+                            <strong>0.6878</strong>
+                        </p>
+
+                    </div>
+
+
+                    <div class="calculation">
+
+                        <h3>Output Neuron</h3>
+
+                        <p>
+                            z = (H1 × W1) + (H2 × W2) + Bias
+                        </p>
+
+                        <code>
+                            z = (0.6857 × 0.50)
+                            + (0.6878 × 0.80)
+                            + 0.10
+                        </code>
+
+                        <p>
+                            Weighted Sum =
+                            <strong>0.9927</strong>
+                        </p>
+
+                        <p>
+                            Final Output =
+                            <strong>0.7297</strong>
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- FORMULA -->
+            <div class="card formula-card">
+
+                <h2>📐 Forward Propagation Formula</h2>
+
+                <div class="formula">
+
+                    <div>
+                        <span>Weighted Sum</span>
+                        <strong>
+                            z = Σ(xᵢwᵢ) + b
+                        </strong>
+                    </div>
+
+                    <div>
+                        <span>Neuron Output</span>
+                        <strong>
+                            a = f(z)
+                        </strong>
+                    </div>
+
+                    <div>
+                        <span>Sigmoid</span>
+                        <strong>
+                            f(z) = 1 / (1 + e⁻ᶻ)
+                        </strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
